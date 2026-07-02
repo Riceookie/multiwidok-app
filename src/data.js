@@ -18,7 +18,12 @@ export function repoBySlug(slug) {
   return repos.find((r) => r.slug === slug)
 }
 
-// Zbuduj adres repozytorium na GitHubie.
+// Zbuduj adres repozytorium na GitHubie (kod źródłowy).
 export function repoUrl(slug) {
   return `https://github.com/${OWNER}/${slug}`
+}
+
+// Zbuduj adres działającej aplikacji (GitHub Pages — project site).
+export function liveUrl(slug) {
+  return `https://${OWNER.toLowerCase()}.github.io/${slug}/`
 }

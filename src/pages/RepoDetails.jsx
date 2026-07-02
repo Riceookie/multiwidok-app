@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { repoBySlug, repoUrl, OWNER } from '../data.js'
+import { repoBySlug, repoUrl, liveUrl, OWNER } from '../data.js'
 import { timeAgo } from '../format.js'
 import NotFound from './NotFound.jsx'
 
 // Widok szczegółów: odczytuje :slug z URL, pobiera dane repo oraz ostatni commit
-// z GitHub API i odświeża je automatycznie co 60 s.
+// z GitHub API i odświeża je automatycznie co 60 s. Pokazuje też żywy podgląd aplikacji.
 export default function RepoDetails() {
   const { slug } = useParams()
   const navigate = useNavigate()
@@ -48,26 +48,42 @@ export default function RepoDetails() {
   return (
     <section>
       <button className="back" onClick={() => navigate(-1)}>← Wstecz</button>
-      <div className="tags">
-        <span className={`tag ${meta.priority}`}>{meta.priority}</span>
-        {meta.thisApp && <span className="tag self">ta aplikacja</span>}
+
+      <div className="detail-head">
+        <div>
+          <div className="tags">
+            <span className={`tag ${meta.priority}`}>{meta.priority}</span>
+            {meta.thisApp && <span className="tag self">ta aplikacja</span>}
+          </div>
+          <h1>{slug}</h1>
+          <p className="task big">Zadanie: {meta.task}</p>
+        </div>
+        <a className="btn open big" href={liveUrl(slug)} target="_blank" rel="noreferrer">
+          🚀 Otwórz aplikację
+        </a>
       </div>
-      <h1>{slug}</h1>
-      <p className="task big">Zadanie: {meta.task}</p>
 
       {error && <p className="banner error">⚠️ {error}</p>}
 
       {info && (
-        <>
-          <p className="description">{info.description || 'Brak opisu repozytorium.'}</p>
-          <ul className="facts">
-            <li>Język: <strong>{info.language || '—'}</strong></li>
-            <li>Gałąź: <strong>{info.default_branch}</strong></li>
-            <li>Ostatni push: <strong>{timeAgo(info.pushed_at)}</strong></li>
-            <li>⭐ <strong>{info.stargazers_count}</strong></li>
-          </ul>
-        </>
+        <ul className="facts">
+          <li>Język: <strong>{info.language || '—'}</strong></li>
+          <li>Gałąź: <strong>{info.default_branch}</strong></li>
+          <li>Ostatni push: <strong>{timeAgo(info.pushed_at)}</strong></li>
+          <li>⭐ <strong>{info.stargazers_count}</strong></li>
+        </ul>
       )}
+
+      {info?.description && <p className="description">{info.description}</p>}
+
+      {/* Żywy podgląd działającej aplikacji (deployment na GitHub Pages). */}
+      <div className="preview">
+        <div className="preview-bar">
+          <span className="dots"><i /><i /><i /></span>
+          <span className="url">{liveUrl(slug)}</span>
+        </div>
+        <iframe src={liveUrl(slug)} title={`Podgląd aplikacji ${slug}`} loading="lazy" />
+      </div>
 
       {commit && (
         <div className="commit">
@@ -80,15 +96,15 @@ export default function RepoDetails() {
         </div>
       )}
 
-      <p>
-        <a className="btn open" href={repoUrl(slug)} target="_blank" rel="noreferrer">
-          Otwórz repo na GitHubie ↗
+      <p className="row">
+        <a className="btn ghost" href={repoUrl(slug)} target="_blank" rel="noreferrer">
+          ‹› Zobacz kod na GitHubie
         </a>
+        <Link className="btn ghost" to="/">← Powrót do listy</Link>
       </p>
       <p className="muted small">
         Odświeża się automatycznie co 60 s. Slug z URL: <code>{slug}</code>
       </p>
-      <p><Link to="/">← Powrót do listy</Link></p>
     </section>
   )
 }
