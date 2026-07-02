@@ -1,6 +1,6 @@
 import { Routes, Route, Link, NavLink } from 'react-router-dom'
-import ItemsList from './pages/ItemsList.jsx'
-import ItemDetails from './pages/ItemDetails.jsx'
+import ReposList from './pages/ReposList.jsx'
+import RepoDetails from './pages/RepoDetails.jsx'
 import NotFound from './pages/NotFound.jsx'
 
 // Wspólny układ: nagłówek + nawigacja na każdej stronie (Outlet zastąpiony przez children).
@@ -8,18 +8,17 @@ function Layout({ children }) {
   return (
     <div className="app">
       <header className="header">
-        <Link to="/" className="brand">🛒 Katalog</Link>
+        <Link to="/" className="brand">📦 Repozytoria zadań</Link>
         <nav className="nav">
           <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
-            Produkty
-          </NavLink>
-          <NavLink to="/items/999" className={({ isActive }) => (isActive ? 'active' : '')}>
-            Przykład 404
+            Repozytoria
           </NavLink>
         </nav>
       </header>
       <main className="content">{children}</main>
-      <footer className="footer">Zadanie: aplikacja z routingiem (React Router)</footer>
+      <footer className="footer">
+        Zadanie: wielostronicowa aplikacja z routingiem (React Router) · dane na żywo z GitHub API
+      </footer>
     </div>
   )
 }
@@ -28,10 +27,10 @@ export default function App() {
   return (
     <Layout>
       <Routes>
-        {/* Widok 1: lista elementów */}
-        <Route path="/" element={<ItemsList />} />
-        {/* Widok 2: szczegóły po ID z URL, np. /items/42 */}
-        <Route path="/items/:id" element={<ItemDetails />} />
+        {/* Widok 1: lista repozytoriów powiązanych z zadaniami */}
+        <Route path="/" element={<ReposList />} />
+        {/* Widok 2: szczegóły repo po slugu z URL, np. /repo/todo-app */}
+        <Route path="/repo/:slug" element={<RepoDetails />} />
         {/* Widok 3: 404 dla każdej nieistniejącej trasy */}
         <Route path="*" element={<NotFound />} />
       </Routes>
