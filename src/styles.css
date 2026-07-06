@@ -127,35 +127,46 @@ a { color: #a5b4fc; }
   box-shadow: 0 12px 30px -12px rgba(99,102,241,.5);
 }
 
-/* Miniatura = żywy podgląd aplikacji (iframe wyskalowany w dół) */
+/* Miniatura = żywy podgląd aplikacji (iframe) nad kafelkiem-fallbackiem z ikoną */
 .thumb {
   position: relative;
   display: block;
   height: 160px;
   overflow: hidden;
-  background: #0b1020;
   border-bottom: 1px solid var(--border);
 }
-.thumb iframe {
-  width: 1280px;
-  height: 800px;
-  border: 0;
-  transform: scale(.32);
-  transform-origin: top left;
-  pointer-events: none;
-}
-.thumb-veil { position: absolute; inset: 0; } /* łapie klik → szczegóły */
-
-/* Kafelek podglądu (lekki, zamiast iframe): ikona na kolorowym tle */
-.thumb-tile {
+/* Fallback pod iframe: ikona na kolorowym tle (tło ustawia inline gradient). */
+.thumb-fallback {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 130px;
-  border-bottom: 1px solid var(--border);
-  text-decoration: none;
+  font-size: 3.2rem;
+  line-height: 1;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,.35));
+  z-index: 0;
 }
-.thumb-icon { font-size: 3.4rem; line-height: 1; filter: drop-shadow(0 3px 8px rgba(0,0,0,.35)); }
+.thumb-frame {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1280px;
+  height: 800px;
+  border: 0;
+  transform: translateX(-50%) scale(.34);
+  transform-origin: top center;
+  pointer-events: none;
+  z-index: 1;
+  background: transparent;
+}
+/* Łapie klik → szczegóły; delikatna poświata u dołu dla jednolitego kadru. */
+.thumb-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(to bottom, transparent 62%, rgba(11,16,32,.55));
+}
 
 /* Panel statystyk */
 .stats { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 .8rem; }

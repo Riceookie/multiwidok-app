@@ -131,16 +131,27 @@ export default function ReposList() {
             const hue = hueOf(r.slug)
             return (
               <li key={r.slug} className="card">
-                {/* Kafelek podglądu: ikona + stały kolor per zadanie (lekki, zawsze się renderuje) */}
+                {/* Żywy podgląd aplikacji (iframe), a pod nim kafelek z ikoną jako
+                    fallback — widać go w trakcie ładowania i gdy apka jest ciemna,
+                    więc karta nigdy nie jest „czarną dziurą”. */}
                 <Link
                   to={`/repo/${r.slug}`}
-                  className="thumb-tile"
+                  className="thumb"
                   aria-label={`Szczegóły: ${r.slug}`}
                   style={{
                     background: `linear-gradient(135deg, hsl(${hue} 55% 24%), hsl(${(hue + 40) % 360} 60% 15%))`,
                   }}
                 >
-                  <span className="thumb-icon">{r.icon || '🗂️'}</span>
+                  <span className="thumb-fallback">{r.icon || '🗂️'}</span>
+                  <iframe
+                    className="thumb-frame"
+                    src={demoUrl(r)}
+                    title={`Podgląd ${r.slug}`}
+                    loading="lazy"
+                    tabIndex={-1}
+                    scrolling="no"
+                  />
+                  <span className="thumb-veil" />
                 </Link>
 
                 <div className="card-body">
