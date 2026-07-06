@@ -37,18 +37,15 @@ export default function ReposList() {
   // Statystyki liczone z listy + danych na żywo (gdy są).
   const stats = useMemo(() => {
     const langs = new Set()
-    let stars = 0
     for (const r of repos) {
       const live = data[r.slug]
       if (live?.language) langs.add(live.language)
-      if (live?.stars) stars += live.stars
     }
     return {
       total: repos.length,
       high: repos.filter((r) => r.priority === 'high').length,
       medium: repos.filter((r) => r.priority === 'medium').length,
       langs: [...langs],
-      stars,
     }
   }, [data])
 
@@ -89,7 +86,7 @@ export default function ReposList() {
           {stats.langs.length > 0 && (
             <span className="stat">{stats.langs.join(' · ')}</span>
           )}
-          <span className="stat">⭐ <b>{stats.stars}</b></span>
+          <span className="stat"><b>{CATEGORIES.length}</b> kategorie</span>
         </div>
 
         <div className="live">
