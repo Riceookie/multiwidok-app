@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { repos, repoUrl, demoUrl } from '../data.js'
+import { repos, repoUrl, demoUrl, CATEGORIES, categoryIcon } from '../data.js'
 import { useGithubRepos } from '../hooks/useGithubRepos.js'
 import { timeAgo } from '../format.js'
 
@@ -25,6 +25,14 @@ export default function ReposList() {
   const [query, setQuery] = useState('')
   const [priority, setPriority] = useState('all') // all | high | medium | low
   const [sort, setSort] = useState('default') // default | recent | name
+  const [category, setCategory] = useState('all') // all | nazwa kategorii (zakładka)
+
+  // Ile aplikacji w każdej kategorii (do liczników na zakładkach).
+  const countByCat = useMemo(() => {
+    const m = {}
+    for (const r of repos) m[r.category] = (m[r.category] || 0) + 1
+    return m
+  }, [])
 
   // Statystyki liczone z listy + danych na żywo (gdy są).
   const stats = useMemo(() => {
@@ -48,9 +56,10 @@ export default function ReposList() {
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase()
     let list = repos.filter((r) => {
+      const okCategory = category === 'all' || r.category === category
       const okPriority = priority === 'all' || r.priority === priority
       const okQuery = !q || r.slug.toLowerCase().includes(q) || r.task.toLowerCase().includes(q)
-      return okPriority && okQuery
+      return okCategory && okPriority && okQuery
     })
     if (sort === 'name') {
       list = [...list].sort((a, b) => a.slug.localeCompare(b.slug, 'pl'))
@@ -62,7 +71,7 @@ export default function ReposList() {
       })
     }
     return list
-  }, [query, priority, sort, data])
+  }, [query, category, priority, sort, data])
 
   return (
     <section>
@@ -90,6 +99,25 @@ export default function ReposList() {
             <span className="small">· aktualizacja {lastUpdated.toLocaleTimeString('pl-PL')}</span>
           )}
         </div>
+      </div>
+
+      {/* Zakładki kategorii */}
+      <div className="tabs" role="tablist">
+        <button
+          className={'tab' + (category === 'all' ? ' active' : '')}
+          onClick={() => setCategory('all')}
+        >
+          ✨ Wszystkie <span className="tab-count">{repos.length}</span>
+        </button>
+        {CATEGORIES.map((c) => (
+          <button
+            key={c.key}
+            className={'tab' + (category === c.key ? ' active' : '')}
+            onClick={() => setCategory(c.key)}
+          >
+            {c.icon} {c.key} <span className="tab-count">{countByCat[c.key] || 0}</span>
+          </button>
+        ))}
       </div>
 
       {/* Kontrolki: szukaj / filtr priorytetu / sortowanie */}
@@ -152,10 +180,13 @@ export default function ReposList() {
                     scrolling="no"
                   />
                   <span className="thumb-veil" />
+                  {/* Widoczny znaczek-ikona aplikacji w rogu (zawsze na wierzchu). */}
+                  <span className="thumb-badge">{r.icon || '🗂️'}</span>
                 </Link>
 
                 <div className="card-body">
                   <div className="tags">
+                    <span className="tag cat">{categoryIcon(r.category)} {r.category}</span>
                     <span className={`tag ${r.priority}`}>{r.priority}</span>
                     {r.thisApp && <span className="tag self">ta aplikacja</span>}
                   </div>

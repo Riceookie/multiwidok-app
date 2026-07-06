@@ -204,6 +204,53 @@ a { color: #a5b4fc; }
 }
 .select:focus { outline: none; border-color: var(--accent); }
 
+/* Zakładki kategorii */
+.tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: .45rem .85rem;
+  border-radius: 999px;
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .12s, border-color .12s, background .12s;
+}
+.tab:hover { color: var(--text); border-color: var(--accent); }
+.tab.active { color: #fff; background: var(--accent); border-color: var(--accent); }
+.tab-count {
+  font-size: .72rem;
+  background: rgba(255,255,255,.14);
+  padding: .05rem .4rem;
+  border-radius: 999px;
+}
+.tab:not(.active) .tab-count { background: rgba(148,163,184,.18); }
+
+/* Chip kategorii na karcie */
+.tag.cat { color: #cbd5e1; background: rgba(148,163,184,.16); }
+
+/* Znaczek-ikona w rogu miniatury (zawsze widoczny nad iframe) */
+.thumb-badge {
+  position: absolute;
+  top: .5rem;
+  left: .5rem;
+  z-index: 3;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  background: rgba(11,16,32,.72);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 10px;
+  backdrop-filter: blur(3px);
+}
+
 .card-body { padding: .9rem 1.1rem .4rem; flex: 1; }
 .tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .5rem; }
 .tag {
