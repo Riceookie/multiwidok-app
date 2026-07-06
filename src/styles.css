@@ -146,6 +146,53 @@ a { color: #a5b4fc; }
 }
 .thumb-veil { position: absolute; inset: 0; } /* łapie klik → szczegóły */
 
+/* Kafelek podglądu (lekki, zamiast iframe): ikona na kolorowym tle */
+.thumb-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 130px;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+}
+.thumb-icon { font-size: 3.4rem; line-height: 1; filter: drop-shadow(0 3px 8px rgba(0,0,0,.35)); }
+
+/* Panel statystyk */
+.stats { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 .8rem; }
+.stat {
+  font-size: .82rem;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: .3rem .7rem;
+  border-radius: 999px;
+}
+.stat b { color: var(--text); }
+
+/* Kontrolki: szukaj / filtr / sortowanie */
+.controls { display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1.3rem; }
+.search {
+  flex: 1;
+  min-width: 200px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: .55rem .8rem;
+  border-radius: 10px;
+  font-size: .9rem;
+}
+.search:focus { outline: none; border-color: var(--accent); }
+.select {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: .55rem .7rem;
+  border-radius: 10px;
+  font-size: .9rem;
+  cursor: pointer;
+}
+.select:focus { outline: none; border-color: var(--accent); }
+
 .card-body { padding: .9rem 1.1rem .4rem; flex: 1; }
 .tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .5rem; }
 .tag {

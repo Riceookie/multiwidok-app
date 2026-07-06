@@ -3,18 +3,19 @@ export const OWNER = 'Riceookie'
 
 // Mapowanie: repozytorium ↔ zadanie ze stażu.
 // slug = nazwa repo na GitHubie (używana w URL: /repo/:slug oraz w zapytaniach do API).
+// icon = emoji na kafelku podglądu (gdy nie ładujemy żywego iframe na liście).
 export const repos = [
-  { slug: 'multiwidok-app',        task: 'Wielostronicowa aplikacja (routing)', priority: 'high',   thisApp: true },
-  { slug: 'biblioteczka',          task: 'Mini-aplikacja z bazą i relacją',     priority: 'medium' },
-  { slug: 'serialoteka',           task: 'Projekt końcowy: mini-aplikacja full-stack', priority: 'high', live: 'https://serialoteka.vercel.app/' },
-  { slug: 'crud-notatki',          task: 'CRUD z backendem',                    priority: 'high',   live: 'https://crud-notatki.vercel.app/' },
-  { slug: 'logowanie-sesja',       task: 'Logowanie i sesja',                   priority: 'high' },
-  { slug: 'formularz-rejestracji', task: 'Formularz z walidacją',               priority: 'medium' },
-  { slug: 'arena-survivor',        task: 'Gierka',                              priority: 'medium' },
-  { slug: 'todo-app',              task: 'Aplikacja To-Do z zapisem',           priority: 'medium' },
-  { slug: 'users-app',             task: 'Pobieranie danych z publicznego API', priority: 'medium' },
-  { slug: 'counter-app',           task: 'Drugie zadanie: licznik kliknięć',    priority: 'medium' },
-  { slug: 'welcome-page',          task: 'Pierwsze zadanie: strona powitalna',  priority: 'medium' },
+  { slug: 'multiwidok-app',        task: 'Wielostronicowa aplikacja (routing)', priority: 'high',   thisApp: true, icon: '📦' },
+  { slug: 'biblioteczka',          task: 'Mini-aplikacja z bazą i relacją',     priority: 'medium', icon: '📚' },
+  { slug: 'serialoteka',           task: 'Projekt końcowy: mini-aplikacja full-stack', priority: 'high', live: 'https://serialoteka.vercel.app/', icon: '🎬' },
+  { slug: 'crud-notatki',          task: 'CRUD z backendem',                    priority: 'high',   live: 'https://crud-notatki.vercel.app/', icon: '📝' },
+  { slug: 'logowanie-sesja',       task: 'Logowanie i sesja',                   priority: 'high',   icon: '🔐' },
+  { slug: 'formularz-rejestracji', task: 'Formularz z walidacją',               priority: 'medium', icon: '📋' },
+  { slug: 'arena-survivor',        task: 'Gierka',                              priority: 'medium', icon: '🎮' },
+  { slug: 'todo-app',              task: 'Aplikacja To-Do z zapisem',           priority: 'medium', icon: '✅' },
+  { slug: 'users-app',             task: 'Pobieranie danych z publicznego API', priority: 'medium', icon: '👥' },
+  { slug: 'counter-app',           task: 'Drugie zadanie: licznik kliknięć',    priority: 'medium', icon: '🔢' },
+  { slug: 'welcome-page',          task: 'Pierwsze zadanie: strona powitalna',  priority: 'medium', icon: '👋' },
 ]
 
 // Pomocnik: znajdź repo po slugu z URL (slug jest stringiem).
