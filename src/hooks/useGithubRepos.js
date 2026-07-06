@@ -1,18 +1,40 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { OWNER, repos as staticRepos } from '../data.js'
 
-// Odpytujemy GitHub co 60 s. Bez tokenu limit API wynosi 60 zapytań/godz. na IP,
-// a jedno zapytanie zwraca stan WSZYSTKICH repo, więc 60 s mieści się w limicie.
-const POLL_MS = 60_000
+// GitHub API bez tokenu ma limit 60 zapytań/godz. na IP. Odpytywanie co 60 s
+// (lista) + widok szczegółów potrafiło ten limit wyczerpać i wywalić 403.
+// Dlatego: (1) odświeżamy rzadziej — co 5 min, (2) cache'ujemy wynik w
+// localStorage, więc po odświeżeniu/limicie pokazujemy ostatnie znane dane
+// zamiast błędu.
+const POLL_MS = 5 * 60_000
+const CACHE_KEY = 'ghrepos-cache-v1'
 const knownSlugs = new Set(staticRepos.map((r) => r.slug))
 
-// Custom hook: pobiera z GitHub API listę repozytoriów użytkownika i cyklicznie ją
-// odświeża. Dzięki temu widok sam się aktualizuje po każdej zmianie (push) w repo.
+function loadCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY)
+    return raw ? JSON.parse(raw) : null // { data, at }
+  } catch {
+    return null
+  }
+}
+
+function saveCache(data) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ data, at: Date.now() }))
+  } catch {
+    /* brak localStorage (np. tryb prywatny) — trudno, działamy bez cache */
+  }
+}
+
+// Custom hook: pobiera z GitHub API stan repozytoriów i cyklicznie odświeża,
+// z cache'em w localStorage i odpornością na limit zapytań (403).
 export function useGithubRepos() {
-  const [data, setData] = useState({}) // slug -> dane repo z API
+  const cached = loadCache()
+  const [data, setData] = useState(cached?.data ?? {}) // slug -> dane repo z API
   const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [lastUpdated, setLastUpdated] = useState(null)
+  const [loading, setLoading] = useState(!cached)
+  const [lastUpdated, setLastUpdated] = useState(cached?.at ? new Date(cached.at) : null)
   const timer = useRef(null)
 
   const fetchRepos = useCallback(async () => {
@@ -24,7 +46,7 @@ export function useGithubRepos() {
       if (!res.ok) {
         throw new Error(
           res.status === 403
-            ? 'Przekroczono limit zapytań do GitHuba — spróbuj za chwilę.'
+            ? 'Przekroczono limit zapytań do GitHuba (60/godz. bez tokenu).'
             : `Błąd GitHub API: ${res.status}`
         )
       }
@@ -45,9 +67,11 @@ export function useGithubRepos() {
         }
       }
       setData(map)
+      saveCache(map)
       setError(null)
       setLastUpdated(new Date())
     } catch (e) {
+      // Nie kasujemy dotychczasowych danych — pokazujemy ostatnie znane (cache).
       setError(e.message)
     } finally {
       setLoading(false)
@@ -55,8 +79,8 @@ export function useGithubRepos() {
   }, [])
 
   useEffect(() => {
-    fetchRepos() // pierwsze pobranie od razu
-    timer.current = setInterval(fetchRepos, POLL_MS) // potem cyklicznie
+    fetchRepos() // pierwsze pobranie od razu (odświeży cache, jeśli limit pozwoli)
+    timer.current = setInterval(fetchRepos, POLL_MS) // potem co 5 min
     return () => clearInterval(timer.current) // sprzątamy interwał przy odmontowaniu
   }, [fetchRepos])
 

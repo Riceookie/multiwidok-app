@@ -22,7 +22,7 @@ export default function ReposList() {
         <h1>Repozytoria zadań</h1>
         <p className="muted">
           Każda karta to jedno zadanie. Kliknij <strong>Otwórz aplikację</strong>, żeby od razu
-          uruchomić gotowy projekt. Dane odświeżają się same co 60&nbsp;s.
+          uruchomić gotowy projekt. Dane odświeżają się same co 5&nbsp;min.
         </p>
         <div className="live">
           <span className="dot" /> na żywo
@@ -33,7 +33,14 @@ export default function ReposList() {
         </div>
       </div>
 
-      {error && <p className="banner error">⚠️ {error} Pokazuję ostatnie znane dane.</p>}
+      {/* Czerwony baner tylko, gdy w ogóle nie mamy danych. Gdy mamy cache,
+          pokazujemy dyskretną notkę, że dane mogą być sprzed chwili. */}
+      {error && Object.keys(data).length === 0 && (
+        <p className="banner error">⚠️ {error} Karty działają, brak tylko danych na żywo.</p>
+      )}
+      {error && Object.keys(data).length > 0 && (
+        <p className="muted small">Dane mogą być nieco starsze (limit GitHub API) — pokazuję ostatnie znane.</p>
+      )}
       {loading && !lastUpdated && <p className="muted">Ładowanie danych z GitHuba…</p>}
 
       <ul className="grid">

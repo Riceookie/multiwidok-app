@@ -38,7 +38,7 @@ export default function RepoDetails() {
     }
 
     load()
-    const t = setInterval(load, 60_000)
+    const t = setInterval(load, 5 * 60_000) // co 5 min (limit GitHub API bez tokenu)
     return () => { alive = false; clearInterval(t) }
   }, [slug, meta])
 
@@ -103,7 +103,7 @@ export default function RepoDetails() {
         <Link className="btn ghost" to="/">← Powrót do listy</Link>
       </p>
       <p className="muted small">
-        Odświeża się automatycznie co 60 s. Slug z URL: <code>{slug}</code>
+        Odświeża się automatycznie co 5 min. Slug z URL: <code>{slug}</code>
       </p>
     </section>
   )
