@@ -5,6 +5,7 @@ export const OWNER = 'Riceookie'
 // slug = nazwa repo na GitHubie (używana w URL: /repo/:slug oraz w zapytaniach do API).
 export const repos = [
   { slug: 'multiwidok-app',        task: 'Wielostronicowa aplikacja (routing)', priority: 'high',   thisApp: true },
+  { slug: 'biblioteczka',          task: 'Mini-aplikacja z bazą i relacją',     priority: 'medium' },
   { slug: 'formularz-rejestracji', task: 'Formularz z walidacją',               priority: 'medium' },
   { slug: 'arena-survivor',        task: 'Gierka',                              priority: 'medium' },
   { slug: 'todo-app',              task: 'Aplikacja To-Do z zapisem',           priority: 'medium' },
