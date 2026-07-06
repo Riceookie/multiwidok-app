@@ -6,6 +6,9 @@ export const OWNER = 'Riceookie'
 export const repos = [
   { slug: 'multiwidok-app',        task: 'Wielostronicowa aplikacja (routing)', priority: 'high',   thisApp: true },
   { slug: 'biblioteczka',          task: 'Mini-aplikacja z bazą i relacją',     priority: 'medium' },
+  { slug: 'serialoteka',           task: 'Projekt końcowy: mini-aplikacja full-stack', priority: 'high', live: 'https://serialoteka.vercel.app/' },
+  { slug: 'crud-notatki',          task: 'CRUD z backendem',                    priority: 'high',   live: 'https://crud-notatki.vercel.app/' },
+  { slug: 'logowanie-sesja',       task: 'Logowanie i sesja',                   priority: 'high' },
   { slug: 'formularz-rejestracji', task: 'Formularz z walidacją',               priority: 'medium' },
   { slug: 'arena-survivor',        task: 'Gierka',                              priority: 'medium' },
   { slug: 'todo-app',              task: 'Aplikacja To-Do z zapisem',           priority: 'medium' },
@@ -27,4 +30,10 @@ export function repoUrl(slug) {
 // Zbuduj adres działającej aplikacji (GitHub Pages — project site).
 export function liveUrl(slug) {
   return `https://${OWNER.toLowerCase()}.github.io/${slug}/`
+}
+
+// Adres działającego dema: własny URL z pola `live` (np. Vercel dla apek Next.js),
+// a w razie braku — domyślny project site na GitHub Pages.
+export function demoUrl(r) {
+  return r.live || liveUrl(r.slug)
 }

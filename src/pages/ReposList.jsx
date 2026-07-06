@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { repos, repoUrl, liveUrl } from '../data.js'
+import { repos, repoUrl, demoUrl } from '../data.js'
 import { useGithubRepos } from '../hooks/useGithubRepos.js'
 import { timeAgo } from '../format.js'
 
@@ -44,7 +44,7 @@ export default function ReposList() {
               {/* Miniatura działającej aplikacji — od razu widać, co to jest. */}
               <Link to={`/repo/${r.slug}`} className="thumb" aria-label={`Szczegóły: ${r.slug}`}>
                 <iframe
-                  src={liveUrl(r.slug)}
+                  src={demoUrl(r)}
                   title={`Podgląd ${r.slug}`}
                   loading="lazy"
                   tabIndex={-1}
@@ -72,7 +72,7 @@ export default function ReposList() {
               </div>
 
               <div className="actions">
-                <a className="btn open" href={liveUrl(r.slug)} target="_blank" rel="noreferrer">
+                <a className="btn open" href={demoUrl(r)} target="_blank" rel="noreferrer">
                   🚀 Otwórz aplikację
                 </a>
                 <a className="btn ghost" href={repoUrl(r.slug)} target="_blank" rel="noreferrer">

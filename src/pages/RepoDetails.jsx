@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { repoBySlug, repoUrl, liveUrl, OWNER } from '../data.js'
+import { repoBySlug, repoUrl, demoUrl, OWNER } from '../data.js'
 import { timeAgo } from '../format.js'
 import NotFound from './NotFound.jsx'
 
@@ -58,7 +58,7 @@ export default function RepoDetails() {
           <h1>{slug}</h1>
           <p className="task big">Zadanie: {meta.task}</p>
         </div>
-        <a className="btn open big" href={liveUrl(slug)} target="_blank" rel="noreferrer">
+        <a className="btn open big" href={demoUrl(meta)} target="_blank" rel="noreferrer">
           🚀 Otwórz aplikację
         </a>
       </div>
@@ -80,9 +80,9 @@ export default function RepoDetails() {
       <div className="preview">
         <div className="preview-bar">
           <span className="dots"><i /><i /><i /></span>
-          <span className="url">{liveUrl(slug)}</span>
+          <span className="url">{demoUrl(meta)}</span>
         </div>
-        <iframe src={liveUrl(slug)} title={`Podgląd aplikacji ${slug}`} loading="lazy" />
+        <iframe src={demoUrl(meta)} title={`Podgląd aplikacji ${slug}`} loading="lazy" />
       </div>
 
       {commit && (
