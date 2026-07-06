@@ -9,6 +9,7 @@ export const repos = [
   { slug: 'biblioteczka',          task: 'Mini-aplikacja z bazą i relacją',     priority: 'medium', live: 'https://biblioteczka-two.vercel.app/', icon: '📚', category: 'Aplikacje' },
   { slug: 'serialoteka',           task: 'Projekt końcowy: mini-aplikacja full-stack', priority: 'high', live: 'https://serialoteka.vercel.app/', icon: '🎬', category: 'Aplikacje' },
   { slug: 'crud-notatki',          task: 'CRUD z backendem',                    priority: 'high',   live: 'https://crud-notatki.vercel.app/', icon: '📝', category: 'Aplikacje' },
+  { slug: 'logowanie-role',        task: 'Logowanie i role (MENTOR / STAŻYSTA)', priority: 'high',  live: 'https://logowanie-role.vercel.app/', icon: '🛡️', category: 'Aplikacje' },
   { slug: 'logowanie-sesja',       task: 'Logowanie i sesja',                   priority: 'high',   icon: '🔐', category: 'Aplikacje' },
   { slug: 'formularz-rejestracji', task: 'Formularz z walidacją',               priority: 'medium', icon: '📋', category: 'Narzędzia' },
   { slug: 'arena-survivor',        task: 'Gierka',                              priority: 'medium', icon: '🎮', category: 'Gry' },
