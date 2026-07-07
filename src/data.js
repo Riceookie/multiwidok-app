@@ -6,7 +6,7 @@ export const OWNER = 'Riceookie'
 // icon = emoji-znaczek kafelka. category = grupa do zakładek/filtra.
 export const repos = [
   { slug: 'multiwidok-app',        task: 'Wielostronicowa aplikacja (routing)', priority: 'high',   thisApp: true, icon: '📦', category: 'Narzędzia' },
-  { slug: 'isaacdex',              task: 'Aplikacja biznesowa (monorepo Turbo)', priority: 'high',  icon: '👶', category: 'Aplikacje' },
+  { slug: 'isaacdex',              task: 'Aplikacja biznesowa (monorepo Turbo)', priority: 'high',  icon: '🪽', category: 'Aplikacje' },
   { slug: 'czat-na-zywo',          task: 'Czat na żywo (WebSocket)',            priority: 'high',   live: 'https://czat-na-zywo.vercel.app/', icon: '💬', category: 'Aplikacje' },
   { slug: 'biblioteczka',          task: 'Mini-aplikacja z bazą i relacją',     priority: 'medium', live: 'https://biblioteczka-two.vercel.app/', icon: '📚', category: 'Aplikacje' },
   { slug: 'serialoteka',           task: 'Projekt końcowy: mini-aplikacja full-stack', priority: 'high', live: 'https://serialoteka.vercel.app/', icon: '🎬', category: 'Aplikacje' },
